@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.example.projectutsanmp160421058.R
 import com.example.projectutsanmp160421058.databinding.FragmentRegisterBinding
 
@@ -20,6 +21,15 @@ class RegisterFragment : Fragment() {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_register, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnRegister.setOnClickListener {
+            val action = RegisterFragmentDirections.actionLoginFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
 }

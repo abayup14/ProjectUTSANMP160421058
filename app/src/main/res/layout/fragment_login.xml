@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.LoginFragment">
@@ -51,14 +52,16 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:hint="Masukkan Password"
+            app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtNamaDepan"
+                android:id="@+id/txtPassw"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text|textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -81,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginTop="64dp"
+            android:inputType="text|textPassword"
             android:text="Pengguna Baru?"
             android:textSize="16sp"
             android:textStyle="bold"

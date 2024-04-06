@@ -1,5 +1,7 @@
 package com.example.projectutsanmp160421058.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,7 +28,27 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogin.setOnClickListener {
+            val username = binding.txtUsername.text.toString()
+            val password = binding.txtPassw.text.toString()
 
+            val alert = AlertDialog.Builder(activity)
+            alert.setTitle("Informasi")
+
+            if (username == "admin" && password == "admin") {
+                alert.setMessage("Login Berhasil")
+                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                    val action = LoginFragmentDirections.actionHomeFragment()
+                    Navigation.findNavController(it).navigate(action)
+                })
+
+            } else {
+                alert.setMessage("Login Gagal")
+                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+
+                })
+            }
+
+            alert.create().show()
         }
 
         binding.btnRegister.setOnClickListener {
