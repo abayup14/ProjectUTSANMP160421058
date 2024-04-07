@@ -21,14 +21,12 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
 
         navController = (supportFragmentManager.findFragmentById(R.id.navHome) as NavHostFragment).navController
-
         val appBarConfig = AppBarConfiguration(setOf(
             R.id.itemHome,
             R.id.itemHistory,
             R.id.itemProfile
         ))
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig)
-
         binding.bottomNav.setupWithNavController(navController)
     }
 
