@@ -2,6 +2,7 @@ package com.example.projectutsanmp160421058.view
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,10 +38,10 @@ class LoginFragment : Fragment() {
             if (username == "admin" && password == "admin") {
                 alert.setMessage("Login Berhasil")
                 alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                    val action = LoginFragmentDirections.actionHomeFragment()
-                    Navigation.findNavController(it).navigate(action)
+                    val intent = Intent(activity, HomeActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
                 })
-
             } else {
                 alert.setMessage("Login Gagal")
                 alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
