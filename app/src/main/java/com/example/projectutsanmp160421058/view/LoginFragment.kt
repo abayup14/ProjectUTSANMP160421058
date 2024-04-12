@@ -1,18 +1,30 @@
 package com.example.projectutsanmp160421058.view
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.projectutsanmp160421058.R
 import com.example.projectutsanmp160421058.databinding.FragmentLoginBinding
+import com.example.projectutsanmp160421058.model.User
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 
 class LoginFragment : Fragment() {
+    private var queue: RequestQueue? = null
+    val TAG = "volleyTag"
     private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
@@ -35,21 +47,7 @@ class LoginFragment : Fragment() {
             val alert = AlertDialog.Builder(activity)
             alert.setTitle("Informasi")
 
-            if (username == "admin" && password == "admin") {
-                alert.setMessage("Login Berhasil")
-                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                    val intent = Intent(activity, HomeActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
-                })
-            } else {
-                alert.setMessage("Login Gagal")
-                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-
-                })
-            }
-
-            alert.create().show()
+            login(username, password)
         }
 
         binding.btnRegister.setOnClickListener {
@@ -58,4 +56,56 @@ class LoginFragment : Fragment() {
         }
     }
 
+    fun login(username: String, password: String) {
+        Log.d("login", "loginVolley")
+
+        queue = Volley.newRequestQueue(activity)
+        val url = "http://10.0.2.2/project_uts_anmp/login.php"
+
+        val alert = AlertDialog.Builder(activity)
+        alert.setTitle("Informasi")
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST,
+            url,
+            {
+                Log.d("cekdata", it)
+                val obj = JSONObject(it)
+                if (obj.getString("result") == "OK") {
+                    val data = obj.getJSONArray("data")
+                    if (data.length() > 0) {
+                        val datauser = data.getJSONObject(0)
+                        val sType = object: TypeToken<User>() { }.type
+                        val user = Gson().fromJson(datauser.toString(), sType) as User
+                        Log.d("cekdata", user.toString())
+                        alert.setMessage("Login Berhasil\nSelamat datang ${user.nama_depan} ${user.nama_belakang}")
+                        alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                            val intent = Intent(activity, HomeActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        })
+                    }
+                } else {
+                    alert.setMessage("Login Gagal")
+                    alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                    })
+                }
+                alert.create().show()
+
+            },
+            {
+                Log.e("error", it.toString())
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String, String>()
+                params["username"] = username
+                params["password"] = password
+                return params
+            }
+        }
+
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
 }

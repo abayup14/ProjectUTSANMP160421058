@@ -3,18 +3,24 @@ package com.example.projectutsanmp160421058.view
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.projectutsanmp160421058.R
 import com.example.projectutsanmp160421058.databinding.FragmentRegisterBinding
-import com.example.projectutsanmp160421058.util.register
 
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
+    private var queue: RequestQueue? = null
+    val TAG = "volleyTag"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +54,45 @@ class RegisterFragment : Fragment() {
                     Navigation.findNavController(it).navigate(action)
                 })
             } else {
-                alert.setMessage("Gagal mendaftarkan user. \nCek apakah password dengan konfirmasinya sama")
+                alert.setMessage("Gagal mendaftarkan user.\nCek apakah password dengan konfirmasinya sama")
                 alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-
                 })
             }
 
             alert.create().show()
         }
+    }
+
+    fun register(username: String, nama_depan: String, nama_belakang: String, email: String, password: String) {
+        Log.d("register", "registerVolley")
+
+        queue = Volley.newRequestQueue(context)
+        val url = "http://10.0.2.2/project_uts_anmp/register.php"
+
+        val stringRequest = object: StringRequest(
+            Request.Method.POST,
+            url,
+            {
+
+
+            },
+            {
+
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String, String>()
+                params["username"] = username
+                params["nama_depan"] = nama_depan
+                params["nama_belakang"] = nama_belakang
+                params["email"] = email
+                params["password"] = password
+                return params
+            }
+        }
+
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
     }
 
 }
