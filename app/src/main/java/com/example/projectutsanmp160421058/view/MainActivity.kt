@@ -1,7 +1,12 @@
 package com.example.projectutsanmp160421058.view
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +20,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
+    companion object {
+        fun getSharedPref(activity: Activity): String? {
+            var shared = activity.packageName
+            var sharedPref: SharedPreferences = activity.getSharedPreferences(shared, Context.MODE_PRIVATE)
+            var res = sharedPref.getString("KEY_USER", "")
+            Log.d("cek", res.toString())
+
+            return res
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,6 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         navController = (supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment).navController
         NavigationUI.setupActionBarWithNavController(this, navController)
+
+        if (getSharedPref(this) != "") {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 //        binding.bottomNav.setupWithNavController(navController)
 

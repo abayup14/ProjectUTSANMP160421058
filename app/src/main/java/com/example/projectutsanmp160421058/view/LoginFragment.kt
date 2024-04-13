@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -45,9 +46,14 @@ class LoginFragment : Fragment() {
             val password = binding.txtPassw.text.toString()
 
             val alert = AlertDialog.Builder(activity)
-            alert.setTitle("Informasi")
-
-            login(username, password)
+            alert.setTitle("Konfirmasi")
+            alert.setMessage("Apakah anda ingin melakukan login dengan akun ini?")
+            alert.setPositiveButton("LOGIN", DialogInterface.OnClickListener { dialog, which ->
+                login(username, password)
+            })
+            alert.setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
         }
 
         binding.btnRegister.setOnClickListener {
@@ -80,6 +86,12 @@ class LoginFragment : Fragment() {
                         Log.d("cekdata", user.toString())
                         alert.setMessage("Login Berhasil\nSelamat datang ${user.nama_depan} ${user.nama_belakang}")
                         alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                            val sharedPref = activity?.packageName
+                            val shared: SharedPreferences = requireActivity().getSharedPreferences(sharedPref, Context.MODE_PRIVATE)
+                            val editor = shared.edit()
+                            editor.putString("KEY_USER", datauser.toString())
+                            editor.apply()
+
                             val intent = Intent(activity, HomeActivity::class.java)
                             startActivity(intent)
                             activity?.finish()
@@ -91,7 +103,6 @@ class LoginFragment : Fragment() {
                     })
                 }
                 alert.create().show()
-
             },
             {
                 Log.e("error", it.toString())

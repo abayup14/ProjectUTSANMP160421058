@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.projectutsanmp160421058.R
 import com.example.projectutsanmp160421058.databinding.FragmentRegisterBinding
+import org.json.JSONObject
 
 
 class RegisterFragment : Fragment() {
@@ -43,41 +44,59 @@ class RegisterFragment : Fragment() {
             val password = binding.txtPassw.text.toString()
             val konfPassw = binding.txtKonfirmPassword.text.toString()
 
-            val alert = AlertDialog.Builder(activity)
-            alert.setTitle("Informasi")
-
+            val dialog = AlertDialog.Builder(activity)
             if (password == konfPassw) {
-                register(username, nama_depan, nama_belakang, email, password)
-                alert.setMessage("Berhasil mendaftarkan user.\nSilahkan login menggunakan username dan password")
-                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                    val action = RegisterFragmentDirections.actionLoginFragment()
-                    Navigation.findNavController(it).navigate(action)
+                dialog.setTitle("Konfirmasi")
+                dialog.setMessage("Apakah anda ingin melakukan registrasi?")
+                dialog.setPositiveButton("REGISTER", DialogInterface.OnClickListener { dialog, which ->
+                    register(it, username, nama_depan, nama_belakang, email, password)
                 })
+                dialog.setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+                dialog.create().show()
             } else {
-                alert.setMessage("Gagal mendaftarkan user.\nCek apakah password dengan konfirmasinya sama")
-                alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                dialog.setTitle("Informasi")
+                dialog.setMessage("Gagal mendaftarkan user.\nCek apakah password dengan konfirmasinya sama")
+                dialog.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
                 })
+                dialog.create().show()
             }
-
-            alert.create().show()
         }
     }
 
-    fun register(username: String, nama_depan: String, nama_belakang: String, email: String, password: String) {
+    fun register(view: View, username: String, nama_depan: String, nama_belakang: String, email: String, password: String) {
         Log.d("register", "registerVolley")
 
         queue = Volley.newRequestQueue(context)
         val url = "http://10.0.2.2/project_uts_anmp/register.php"
 
+        val alert = AlertDialog.Builder(activity)
+        alert.setTitle("Informasi")
+
         val stringRequest = object: StringRequest(
             Request.Method.POST,
             url,
             {
-
-
+                Log.d("cekbisa", it)
+                val obj = JSONObject(it)
+                if (obj.getString("result") == "OK") {
+                    alert.setMessage("Berhasil mendaftarkan user.\nSilahkan login menggunakan username dan password")
+                    alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                        val action = RegisterFragmentDirections.actionLoginFragment()
+                        Navigation.findNavController(view).navigate(action)
+                    })
+                } else {
+                    alert.setMessage("Gagal mendaftarkan user.")
+                    alert.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                    })
+                    alert.create().show()
+                }
+                alert.create().show()
             },
             {
-
+                Log.e("cekerror", it.toString())
             }
         ) {
             override fun getParams(): MutableMap<String, String>? {
@@ -94,5 +113,4 @@ class RegisterFragment : Fragment() {
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }
-
 }
