@@ -48,7 +48,7 @@ class RegisterFragment : Fragment() {
             if (password == konfPassw) {
                 dialog.setTitle("Konfirmasi")
                 dialog.setMessage("Apakah anda ingin melakukan registrasi?")
-                dialog.setPositiveButton("REGISTER", DialogInterface.OnClickListener { dialog, which ->
+                dialog.setPositiveButton("Register", DialogInterface.OnClickListener { dialog, which ->
                     register(it, username, nama_depan, nama_belakang, email, password)
                 })
                 dialog.setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->

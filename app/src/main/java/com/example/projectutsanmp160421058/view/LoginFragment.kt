@@ -48,7 +48,7 @@ class LoginFragment : Fragment() {
             val alert = AlertDialog.Builder(activity)
             alert.setTitle("Konfirmasi")
             alert.setMessage("Apakah anda ingin melakukan login dengan akun ini?")
-            alert.setPositiveButton("LOGIN", DialogInterface.OnClickListener { dialog, which ->
+            alert.setPositiveButton("Login", DialogInterface.OnClickListener { dialog, which ->
                 login(username, password)
             })
             alert.setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->

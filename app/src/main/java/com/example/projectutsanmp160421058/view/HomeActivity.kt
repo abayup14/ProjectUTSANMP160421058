@@ -82,15 +82,15 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun hideNavBars() {
-    navController.addOnDestinationChangedListener {_, destination, _ ->
-        when (destination.id) {
-            R.id.detailFragment -> {
-                binding.bottomNav.visibility = View.GONE
-            }
-            else -> {
-                binding.bottomNav.visibility = View.VISIBLE
+        navController.addOnDestinationChangedListener {_, destination, _ ->
+            when (destination.id) {
+                R.id.detailFragment -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
+                else -> {
+                    binding.bottomNav.visibility = View.VISIBLE
+                }
             }
         }
     }
-}
 }
