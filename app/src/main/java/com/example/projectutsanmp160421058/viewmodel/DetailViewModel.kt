@@ -23,7 +23,7 @@ class DetailViewModel(application: Application): AndroidViewModel(application) {
         Log.d("volley", "masukvolley")
 
         queue = Volley.newRequestQueue(getApplication())
-        val url = "http://10.0.2.2/project_uts_anmp/football_manager.json?"
+        val url = "http://10.0.2.2/project_uts_anmp/football_manager.json"
 
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -32,9 +32,8 @@ class DetailViewModel(application: Application): AndroidViewModel(application) {
                 Log.d("showvolley", it)
                 val sType = object : TypeToken<List<FootballManager>>() { }.type
                 val res = Gson().fromJson<List<FootballManager>>(it, sType)
-                dataLD.value = res[id - 1] as FootballManager
-//                val listData = res as ArrayList<FootballManager>
-//                dataLD.value = listData[id - 1]
+                val listData = res as ArrayList<FootballManager>
+                dataLD.value = listData[id - 1]
 
                 Log.d("showvolley", res.toString())
             },
