@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +16,9 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.projectutsanmp160421058.R
 import com.example.projectutsanmp160421058.databinding.ActivityHomeBinding
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding:ActivityHomeBinding
@@ -22,11 +26,28 @@ class HomeActivity : AppCompatActivity() {
 
     companion object {
         fun logout(activity: Activity) {
-            var shared = activity.packageName
-            var sharedPref: SharedPreferences = activity.getSharedPreferences(shared, Context.MODE_PRIVATE)
-            var editor = sharedPref.edit()
+            val shared = activity.packageName
+            val sharedPref: SharedPreferences = activity.getSharedPreferences(shared, Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
             editor.remove("KEY_USER")
             editor.apply()
+        }
+
+        fun load_picture(view: View?, photo: String, imageView: ImageView) {
+            val picasso = Picasso.Builder(view!!.context)
+            picasso.listener { picasso, uri, exception ->
+                exception.printStackTrace()
+            }
+            picasso.build().load(photo)
+                .into(imageView, object : Callback {
+                    override fun onSuccess() {
+                        imageView.visibility = View.VISIBLE
+                    }
+
+                    override fun onError(e: Exception?) {
+                        Log.d("picasso error", e.toString())
+                    }
+                })
         }
     }
 

@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun getSharedPref(activity: Activity): String? {
-            var shared = activity.packageName
-            var sharedPref: SharedPreferences = activity.getSharedPreferences(shared, Context.MODE_PRIVATE)
-            var res = sharedPref.getString("KEY_USER", "")
+            val shared = activity.packageName
+            val sharedPref: SharedPreferences = activity.getSharedPreferences(shared, Context.MODE_PRIVATE)
+            val res = sharedPref.getString("KEY_USER", "")
             Log.d("cek", res.toString())
 
             return res

@@ -33,12 +33,10 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
         viewModel.refresh()
 
-        binding.recView.layoutManager = LinearLayoutManager(context)
-        binding.recView.adapter = listDataAdapter
-
-        observeViewModel()
-
         with (binding) {
+            binding.recView.layoutManager = LinearLayoutManager(context)
+            binding.recView.adapter = listDataAdapter
+
             refreshLayout.setOnRefreshListener {
                 recView.visibility = View.GONE
                 txtError.visibility = View.GONE
@@ -47,6 +45,8 @@ class HomeFragment : Fragment() {
                 refreshLayout.isRefreshing = false
             }
         }
+
+        observeViewModel()
     }
 
     fun observeViewModel() {

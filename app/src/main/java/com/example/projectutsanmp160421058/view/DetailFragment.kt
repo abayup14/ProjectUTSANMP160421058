@@ -49,19 +49,18 @@ class DetailFragment : Fragment() {
                 val size_par = content_per_paragraph?.size
 
                 txtContent.text = content_per_paragraph?.get(now_index)
-                btnPrev.isEnabled = false
-                btnNext.isEnabled = true
+                checkPageNow(now_index, size_par!!.toInt())
 
                 btnNext.setOnClickListener {
                     now_index++
-                    txtContent.text = content_per_paragraph?.get(now_index)
-                    checkPageNow(now_index, size_par!!.toInt())
+                    txtContent.text = content_per_paragraph[now_index]
+                    checkPageNow(now_index, size_par.toInt())
                 }
 
                 btnPrev.setOnClickListener {
                     now_index--
-                    txtContent.text = content_per_paragraph?.get(now_index)
-                    checkPageNow(now_index, size_par!!.toInt())
+                    txtContent.text = content_per_paragraph[now_index]
+                    checkPageNow(now_index, size_par.toInt())
                 }
             }
         })

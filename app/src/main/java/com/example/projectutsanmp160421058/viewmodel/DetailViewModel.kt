@@ -32,10 +32,11 @@ class DetailViewModel(application: Application): AndroidViewModel(application) {
                 Log.d("showvolley", it)
                 val sType = object : TypeToken<List<FootballManager>>() { }.type
                 val res = Gson().fromJson<List<FootballManager>>(it, sType)
-                val listData = res as ArrayList<FootballManager>
-                dataLD.value = listData[id - 1]
+                dataLD.value = res[id - 1] as FootballManager
+//                val listData = res as ArrayList<FootballManager>
+//                dataLD.value = listData[id - 1]
 
-                Log.d("showvolley", listData.toString())
+                Log.d("showvolley", res.toString())
             },
             {
                 Log.d("showvolley", it.toString())

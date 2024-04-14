@@ -50,6 +50,8 @@ class ProfileFragment : Fragment() {
             val sType = object: TypeToken<User>() { }.type
             val user = Gson().fromJson(res.toString(), sType) as User
 
+            HomeActivity.load_picture(requireView(), "https://picsum.photos/300/200", binding.imageView3)
+
             binding.txtProfilUsername.text = "Anda login sebagai: ${user.nama_depan} ${user.nama_belakang}"
 
             val dialog = AlertDialog.Builder(activity)
@@ -86,13 +88,12 @@ class ProfileFragment : Fragment() {
     }
 
     fun updateData(user: User, nama_depan: String, nama_belakang: String, password: String) {
-        var new_nama_depan: String? = null
-        var new_nama_belakang: String? = null
-        var new_pass: String? = null
+        var new_nama_depan: String?
+        var new_nama_belakang: String?
+        var new_pass: String?
 
         if (nama_depan != "") {
             new_nama_depan = nama_depan
-
         } else {
             new_nama_depan = user.nama_depan
         }
