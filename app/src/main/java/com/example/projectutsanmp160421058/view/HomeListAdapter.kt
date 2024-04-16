@@ -21,6 +21,7 @@ class HomeListAdapter(val fmList: ArrayList<FootballManager>): RecyclerView.Adap
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         with (holder.binding) {
+            HomeActivity.load_picture(holder.itemView, fmList[position].photo_url.toString(), imgPhoto)
             txtTitle.text = fmList[position].title
             txtUsername.text = "Dibuat oleh ${fmList[position].creator}"
             txtContent.text = fmList[position].description

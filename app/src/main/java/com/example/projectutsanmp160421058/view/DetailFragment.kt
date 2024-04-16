@@ -41,6 +41,7 @@ class DetailFragment : Fragment() {
     fun observeViewModel() {
         viewModel.dataLD.observe(viewLifecycleOwner, Observer {
             with (binding) {
+                HomeActivity.load_picture(requireView(), it.photo_url.toString(), imgPhotoDetail)
                 var now_index = 0
                 txtTitle.text = it.title
                 txtUsername.text = "Dibuat oleh ${it.creator}"

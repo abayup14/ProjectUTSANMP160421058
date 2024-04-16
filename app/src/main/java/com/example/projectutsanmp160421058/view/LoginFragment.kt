@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
             alert.setNegativeButton("Batal", DialogInterface.OnClickListener { dialog, which ->
                 dialog.dismiss()
             })
+            alert.create().show()
         }
 
         binding.btnRegister.setOnClickListener {
