@@ -33,8 +33,8 @@ class HomeActivity : AppCompatActivity() {
             editor.apply()
         }
 
-        fun load_picture(view: View?, photo: String, imageView: ImageView) {
-            val picasso = Picasso.Builder(view!!.context)
+        fun load_picture(view: View, photo: String, imageView: ImageView) {
+            val picasso = Picasso.Builder(view.context)
             picasso.listener { picasso, uri, exception ->
                 exception.printStackTrace()
             }
